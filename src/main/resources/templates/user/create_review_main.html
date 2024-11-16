@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выбор товара</title>
+  <!-- Подключаем Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Стили для кликабельной формы */
+    .clickable-form {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .clickable-form:hover {
+      background-color: #e2e6ea;
+    }
+
+    /* Стиль для таблицы, чтобы она выглядела аккуратно */
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      padding: 10px;
+      background-color: #f8f9fa;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1>Выбор товара</h1>
+
+  <!-- Форма для выбора категории -->
+  <form th:action="@{/user/chooseCategoryInReviewMain}" method="POST">
+    <div class="form-group mb-4">
+      <label for="category">Категория:</label>
+      <select name="categoryName" required class="form-control" id="category">
+        <option value="" selected disabled>Выберите категорию</option>
+        <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Применить</button>
+  </form>
+
+  <!-- Таблица с продуктами -->
+  <h3>Продукты</h3>
+  <div class="col-md-12">
+    <div th:if="${param.success}" id="success-alert" class="alert alert-success mt-3">
+      Отзыв добавлен!
+    </div>
+    <div th:if="${param.failed}" id="failed-alert" class="alert alert-danger mt-3">
+      Вы уже оставляли отзыв на данный товар!
+    </div>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>Название продукта</th>
+      <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item, iterStat : ${items}">
+      <td th:text="${iterStat.index + 1}"></td>
+      <td th:text="${item.name}"></td>
+      <td>
+        <form th:action="@{/user/create_review_for_item}" method="get">
+          <input type="hidden" name="itemId" th:value="${item.id}" />
+          <button type="submit" class="btn btn-primary">Выбрать</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+
+
+
+
+  <a href="/home" class="btn btn-secondary mt-4">Выбор опций</a>
+</div>
+
+<!-- Подключаем JavaScript и зависимости для Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Скрипт для отправки формы при клике на любую строку -->
+
+</body>
+</html>

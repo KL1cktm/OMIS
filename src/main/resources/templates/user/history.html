@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>История</title>
+    <style>
+        /* Общий стиль для страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            color: #5A9;
+            border-bottom: 2px solid #5A9;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 1.1em;
+        }
+        /* Стиль для названия продукта */
+        .product-name {
+            font-size: 1.5em;
+            color: #555;
+        }
+        /* Стиль для зелёного рейтинга */
+        .rating {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        /* Стили для отзывов */
+        .review {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .review strong {
+            font-size: 1.1em;
+            color: #007bff;
+        }
+        .review p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        .review .date {
+            font-size: 0.9em;
+            color: #888;
+        }
+        /* Кнопка "Назад" */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #5A9;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            background-color: #3b7;
+        }
+    </style>
+</head>
+<body>
+
+<h2>История</h2>
+
+<ul>
+    <!-- Цикл для отображения всех отзывов -->
+    <li th:each="review : ${reviews}" class="review">
+        <p class="product-name">
+            <strong>Название продукта:</strong>
+            <span th:text="${review.item.name}"></span>
+        </p>
+        <p>
+            <strong>Описание продукта:</strong>
+            <span th:text="${review.item.definition}"></span>
+        </p>
+        <p th:text="${review.definition}">Текст отзыва</p>
+        <p>
+            <strong>Рейтинг:</strong>
+            <span class="text-success" th:text="${review.rating}"></span>
+            <span class="date" th:text="${#dates.format(review.date, 'dd/MM/yyyy')}" style="margin-left: 10px;">Дата</span>
+        </p>
+        <p>
+            <strong>Статус:</strong>
+            <span th:if="${review.status.name() == 'MODERATE'}" style="color: orange;">В МОДЕРАЦИИ</span>
+            <span th:if="${review.status.name() == 'SUCCESS'}" style="color: green;">ОПУБЛИКОВАНО</span>
+            <span th:if="${review.status.name() == 'BAD'}" style="color: red;">ОТКЛОНЕНО</span>
+        </p>
+
+        <p>
+            <strong th:if="${admin_comments != null && admin_comments.size() > 0}">
+                Ответ Администратора:
+            </strong>
+
+            <span th:each="admin_comment : ${admin_comments}"
+                  th:if="${admin_comment.review.id == review.id}"
+                  class="text"
+                  th:text="${admin_comment.text}"
+                  style="margin-left: 10px;">Комментарий</span>
+
+            <span th:if="${admin_comments == null || admin_comments.size() == 0 || !#lists.contains(admin_comments, review.id)}"
+                  style="margin-left: 10px;"
+                  th:remove="all">Комментарий отсутствует</span>
+        </p>
+
+
+
+
+        <!-- Форма для удаления отзыва -->
+        <form th:action="@{/user/deleteReview}" method="post">
+            <input type="hidden" th:name="reviewIdForDelete" th:value="${review.id}" />
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    </li>
+</ul>
+
+
+<!-- Ссылка на предыдущую страницу -->
+<a href="/user/user_info" class="back-link">Назад</a>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <!-- Заголовок -->
+    <h1 class="text-center mb-4">Управление</h1>
+
+    <!-- Первая форма: Выбор категории, ввод текста, кнопка отправить -->
+    <form th:action="@{/admin/manage_category}" method="POST" class="mb-5">
+        <div class="form-row align-items-center">
+            <!-- Выбор категории -->
+            <div class="col-sm-3">
+                <label for="category" class="sr-only">Категория</label>
+                <select name="category" id="category" class="form-control" required>
+                    <option value="" disabled selected>Выберите категорию</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}"
+                            th:if="${category.name != 'Все'}"></option>
+                </select>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="inputText" class="sr-only">Текст</label>
+                <input type="text" id="inputText" name="new_category_name" class="form-control" placeholder="Введите текст" required>
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <div th:if="${param.failed_category}" class="alert alert-danger">
+            Категория не была изменена, возможно новое имя уже занято или категории не существует!
+        </div>
+        <div th:if="${param.success_category}" class="alert alert-success">
+            Категория успешно изменена!
+        </div>
+        <div th:if="${param.failed_add_category}" class="alert alert-danger">
+            Категория не была изменена, новое имя уже занято!
+        </div>
+        <div th:if="${param.add_category}" class="alert alert-success">
+            Категория успешно добавлена
+        </div>
+    </div>
+
+    <!-- Вторая форма: создание и выбор продуктов -->
+    <div class="border-top my-3"></div>
+    <form th:action="@{/admin/manage_create}" method="POST" onsubmit="return validateCheckboxes()">
+        <!-- Поле для ввода новой категории и кнопка отправки -->
+        <div class="d-flex align-items-center mb-4">
+            <input type="text" id="categoryName" name="categoryName" class="form-control" placeholder="Введите название категории" required style="flex-grow: 1; margin-right: 10px;">
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </div>
+
+        <!-- Список продуктов с чекбоксами -->
+        <h5>Выберите продукты:</h5>
+        <div class="list-group">
+            <div th:each="product : ${products}" class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 th:text="${product.name}" class="mb-0"></h6>
+                    <div class="form-check">
+                        <input type="checkbox" th:id="'product-' + ${product.id}" th:name="selectedProducts" th:value="${product.id}" class="form-check-input">
+                        <label th:for="'product-' + ${product.id}" class="form-check-label">Выбрать</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div class="mt-3">
+        <a class="btn btn-outline-primary" href="/home">Назад</a>
+    </div>
+</div>
+
+<script>
+    function validateCheckboxes() {
+        const checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+        if (checkboxes.length === 0) {
+            alert('Пожалуйста, выберите хотя бы один продукт!');
+            return false;  // Останавливает отправку формы
+        }
+        return true;
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

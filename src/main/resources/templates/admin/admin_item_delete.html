@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для кликабельной формы */
+        .clickable-form {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .clickable-form:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* Стиль для таблицы */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        /* Стилизация кнопок */
+        .btn-group .btn {
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background-color: #d9534f;
+        }
+
+        .btn-success:hover {
+            background-color: #5cb85c;
+        }
+
+        /* Отступы для элементов */
+        .mb-4 {
+            margin-bottom: 30px;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Мобильная версия */
+        @media (max-width: 768px) {
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-group .btn {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Продукция</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Цена</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.name}">Имя товара</td>
+            <td th:text="${item.price}">Цена</td>
+            <td>
+                <form th:action="@{/admin/deleteItem}" method="POST">
+                    <input type="hidden" name="itemId" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary btn-lg btn-block" href="/admin/admin_manage_feedback">Назад</a>
+</div>
+</body>
+</html>

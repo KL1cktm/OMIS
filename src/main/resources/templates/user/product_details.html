@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Детали продукта</title>
+  <style>
+    /* Общий стиль для страницы */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h2 {
+      color: #5A9;
+      border-bottom: 2px solid #5A9;
+      padding-bottom: 5px;
+    }
+    h3 {
+      color: #333;
+      margin-top: 20px;
+    }
+    p {
+      font-size: 1.1em;
+    }
+    /* Стиль для названия продукта */
+    .product-name {
+      font-size: 1.5em;
+      color: #555;
+    }
+    /* Стиль для зелёного рейтинга */
+    .rating {
+      color: #28a745;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    /* Стили для отзывов */
+    .review {
+      background-color: #fff;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .review strong {
+      font-size: 1.1em;
+      color: #007bff;
+    }
+    .review p {
+      margin: 5px 0;
+      line-height: 1.5;
+    }
+    .review .date {
+      font-size: 0.9em;
+      color: #888;
+    }
+    /* Кнопка "Назад" */
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #fff;
+      background-color: #5A9;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      background-color: #3b7;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Детали продукта</h2>
+
+<!-- Название продукта -->
+<p class="product-name"><strong>Название продукта:</strong> <span th:text="${product.name}"></span></p>
+<p class="product-name"><strong>Описание продукта:</strong> <span th:text="${product.definition}"></span></p>
+
+<!-- Рейтинг продукта -->
+<p><strong>Рейтинг:</strong> <span class="rating" th:text="${averageRating}">0.0</span></p>
+
+<!-- Отзыв о продукте -->
+<h3>Отзывы:</h3>
+<ul>
+  <!-- Цикл для отображения всех отзывов -->
+  <li th:each="review : ${product.reviews}"
+      th:if="${review.status.name() == 'SUCCESS' and !#strings.isEmpty(review.definition)}"
+      class="review">
+    <strong th:text="${review.user.username}">Имя пользователя</strong>:
+    <p th:text="${review.definition}">Текст отзыва</p>
+    <p><strong>Рейтинг:</strong> <span th:text="${review.rating}"></span> <span class="date" th:text="${review.date}">Дата</span></p>
+
+    <form th:action="@{/user/postComment}" method="post" style="display: inline;">
+      <input type="hidden" th:name="reviewForComment" th:value="${review.id}" />
+      <a href="#" onclick="this.closest('form').submit(); return false;" style="text-decoration: underline; font-style: italic; cursor: pointer;">
+        Комментарии
+      </a>
+    </form>
+
+  </li>
+
+</ul>
+
+<!-- Ссылка на предыдущую страницу -->
+<a href="#" class="back-link" onclick="window.history.back();">Назад</a>
+
+</body>
+</html>

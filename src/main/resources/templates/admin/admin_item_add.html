@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для кликабельной формы */
+        .clickable-form {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .clickable-form:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* Стиль для таблицы */
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+
+        td, th {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        /* Стилизация кнопок */
+        .btn-group .btn {
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+        .btn-danger:hover {
+            background-color: #d9534f;
+        }
+
+        .btn-success:hover {
+            background-color: #5cb85c;
+        }
+
+        /* Отступы для элементов */
+        .mb-4 {
+            margin-bottom: 30px;
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Мобильная версия */
+        @media (max-width: 768px) {
+            .btn-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-group .btn {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Продукция</h1>
+
+    <form th:action="@{/admin/addProduct}" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="name">Имя продукта:</label>
+            <input type="text" id="name" name="name" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea id="description" name="definition" class="form-control" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Цена:</label>
+            <input type="number" id="price" name="price" class="form-control" step="0.01" required />
+        </div>
+
+        <div class="form-group">
+            <label for="categories">Выберите категории:</label>
+            <div th:each="category : ${categories}">
+                <!-- Проверка, чтобы исключить категорию с именем "Все" -->
+                <div th:if="${category != 'Все'}">
+                    <input type="checkbox" th:value="${category}" name="categories" th:id="'category_' + ${category}" />
+                    <label th:for="'category_' + ${category}" th:text="${category}">Категория</label><br/>
+                </div>
+            </div>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary">Добавить продукт</button>
+    </form>
+
+
+    <a class="btn btn-primary btn-lg btn-block mt-4" href="/admin/admin_manage_feedback">Назад</a>
+</div>
+</body>
+</html>

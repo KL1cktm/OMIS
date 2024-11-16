@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оставить отзыв</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для кликабельной формы */
+        .clickable-form {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .clickable-form:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* Стиль для таблицы, чтобы она выглядела аккуратно */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            padding: 10px;
+            background-color: #f8f9fa;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 th:text="${item.name}" class="text-center"></h1>
+
+    <!-- Рейтинг -->
+    <h3 class="d-flex justify-content-center">
+        <span class="text-dark">Рейтинг: </span>
+        <span class="text-success" th:text="${averageRating}"></span>
+    </h3>
+
+    <!-- Форма отзыва -->
+    <form th:action="@{/user/writeReview}" method="POST">
+        <div class="form-group mt-4">
+            <!-- Передача скрытого параметра itemId -->
+            <input type="hidden" name="itemId" th:value="${item.id}">
+
+            <label for="reviewText" class="form-label" style="font-size: 1.25rem; font-weight: bold;">Напишите ваш отзыв</label>
+            <textarea id="reviewText" name="reviewText" class="form-control" rows="6" placeholder="Ваш отзыв"></textarea>
+        </div>
+
+        <div class="form-group mt-4">
+            <!-- Рейтинг -->
+            <label for="rating" class="form-label" style="font-size: 1.25rem; font-weight: bold;">Рейтинг (от 0 до 5)</label>
+            <input type="number" id="rating" name="rating" class="form-control" min="0" max="5" step="0.1" placeholder="Введите рейтинг" required>
+        </div>
+
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Применить</button>
+        </div>
+    </form>
+
+
+    <!-- Кнопка Назад -->
+    <div class="text-center mt-4">
+        <a href="/user/create_review" class="btn btn-secondary">Назад</a>
+    </div>
+</div>
+
+
+<!-- Подключаем JavaScript и зависимости для Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Скрипт для отправки формы при клике на любую строку -->
+
+</body>
+</html>
