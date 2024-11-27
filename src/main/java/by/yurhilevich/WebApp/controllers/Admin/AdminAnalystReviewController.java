@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.Admin;
+package by.yurhilevich.WebApp.controllers.Admin;
 
 import by.yurhilevich.WebApp.service.CategoryService;
 import by.yurhilevich.WebApp.service.ReviewService;

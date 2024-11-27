@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.Admin;
+package by.yurhilevich.WebApp.controllers.Admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

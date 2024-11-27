@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.User;
+package by.yurhilevich.WebApp.controllers.User;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

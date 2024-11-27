@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.User;
+package by.yurhilevich.WebApp.controllers.User;
 
 import by.yurhilevich.WebApp.service.CategoryService;
 import by.yurhilevich.WebApp.service.ItemService;

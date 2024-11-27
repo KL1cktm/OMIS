@@ -1,6 +1,5 @@
-package by.yurhilevich.WebApp.Controllers.Admin;
+package by.yurhilevich.WebApp.controllers.Admin;
 
-import by.yurhilevich.WebApp.models.Review;
 import by.yurhilevich.WebApp.service.CommentService;
 import by.yurhilevich.WebApp.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;

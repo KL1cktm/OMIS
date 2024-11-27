@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.User;
+package by.yurhilevich.WebApp.controllers.User;
 
 import by.yurhilevich.WebApp.models.User;
 import by.yurhilevich.WebApp.service.UserService;

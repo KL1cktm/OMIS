@@ -1,4 +1,4 @@
-package by.yurhilevich.WebApp.Controllers.Admin;
+package by.yurhilevich.WebApp.controllers.User;
 
 import by.yurhilevich.WebApp.service.CategoryService;
 import by.yurhilevich.WebApp.service.ItemService;
@@ -12,31 +12,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminAnalystController {
+@RequestMapping("/user")
+public class UserReviewController {
     @Autowired
     CategoryService categoryService;
 
     @Autowired
     ItemService itemService;
 
-    @GetMapping("admin_analyst")
-    public String admin_analyst(Model model) {
-        model.addAttribute("categories", categoryService.getAllCategoriesInString());
+    @GetMapping("/create_review")
+    public String createReview(Model model) {
+        addAttributes(model);
         if (model.containsAttribute("items")) {
             model.addAttribute("items", model.getAttribute("items"));
         } else {
             model.addAttribute("items", itemService.getAllItems());
         }
-        return "admin/admin_analyst";
+        return "user/create_review_main";
     }
 
-    @PostMapping("/chooseCategory")
+    @PostMapping("/chooseCategoryInReviewMain")
     public String chooseCategory(@RequestParam("categoryName") String category, RedirectAttributes redirectAttributes) {
         System.out.println("chooseCategory");
         redirectAttributes.addFlashAttribute("items", categoryService.loadItemsByCategory(category));
-        return "redirect:/admin/admin_analyst";
+        return "redirect:/user/create_review";
     }
 
-
+    public void addAttributes(Model model) {
+        model.addAttribute("categories", categoryService.getAllCategoriesInString());
+    }
 }
